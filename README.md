@@ -2,18 +2,17 @@
 
 **Precision Psychiatric Pharmacogenomics for Major Depressive Disorder (MDD)**
 
-This repository hosts the source manuscript, literature synthesis data, and publication-ready rendered PDF for a scientific review examining the clinical utility of pharmacogenomics (PGx) in Major Depressive Disorder. The manuscript is prepared for the Genetics course (BT313IU) at the School of Biotechnology, International University – Vietnam National University, Ho Chi Minh City (VNU-HCM), typeset in the Elsevier five-column layout (5p) using Quarto.
+This repository hosts the source manuscript, literature synthesis data, and publication-ready rendered PDF for a scientific review examining the clinical utility of pharmacogenomics (PGx) in Major Depressive Disorder. The manuscript was prepared for the Genetics course (BT313IU) at the School of Biotechnology, International University – Vietnam National University, Ho Chi Minh City (VNU-HCM), typeset in the Elsevier five-column layout (5p) using Quarto.
 
 ---
 
-## Direct Document Access for Wet-Lab Scientists
+## Direct Document Access
 
-Researchers, clinicians, and reviewers who only wish to read or download the complete review **do not need to install any programming tools or run any software**:
+Researchers, clinicians, and reviewers who wish to read or download the review do not need to install any software or compile the source:
 
-- **Full Review Article (PDF):** Open or download [`pgx-antidepressant-response_article.pdf`](./pgx-antidepressant-response_article.pdf) directly from the repository.
+- **Full Review Article (PDF):** Open or download [`pgx-antidepressant-response_article.pdf`](./pgx-antidepressant-response_article.pdf) directly from this repository.
 - **Assignment Cover Page (PDF):** Open or download [`assignment_cover-page.pdf`](./assignment_cover-page.pdf).
-- **Automated Releases (PDF Packages):** Download from [GitHub Releases](https://github.com/ht2905/pgx-antidepressant-response-paper/releases/latest) without cloning the repository.
-- **CI/CD Workflow Artifacts:** View build summaries and download fresh outputs from [GitHub Actions](https://github.com/ht2905/pgx-antidepressant-response-paper/actions/workflows/build-manuscript.yml).
+- **Latest Release Package:** Download from [GitHub Releases](https://github.com/ht2905/pgx-antidepressant-response-paper/releases/latest).
 
 ---
 
@@ -60,38 +59,32 @@ A central insight of psychiatric PGx is distinguishing **pharmacokinetic failure
 
 ## Repository Structure
 
-All repository paths and filenames adhere to the lowercase faceted naming standard (`{scope}_{doc-type}.{ext}`):
-
 | Path / File | Semantic Facet | Description |
 |---|---|---|
-| [`pgx-antidepressant-response_article.pdf`](./pgx-antidepressant-response_article.pdf) | Publication Deliverable | Precompiled, publication-quality review article in Elsevier 5p layout. |
-| [`pgx-antidepressant-response_article.qmd`](./pgx-antidepressant-response_article.qmd) | Manuscript Source | Core Quarto manuscript text, citations, metadata, and Elsevier configuration. |
-| [`assignment_cover-page.pdf`](./assignment_cover-page.pdf) | Coursework Deliverable | Formal academic course submission cover sheet. |
+| [`pgx-antidepressant-response_article.pdf`](./pgx-antidepressant-response_article.pdf) | Publication Deliverable | Publication-ready review article in Elsevier 5p layout. |
+| [`pgx-antidepressant-response_article.qmd`](./pgx-antidepressant-response_article.qmd) | Manuscript Source | Quarto manuscript text, citations, metadata, and Elsevier layout options. |
+| [`assignment_cover-page.pdf`](./assignment_cover-page.pdf) | Coursework Deliverable | Coursework submission cover sheet. |
 | [`figures/cyp2d6_duplication-distribution.png`](./figures/cyp2d6_duplication-distribution.png) | Asset / Media | Global interethnic distribution map of *CYP2D6* duplication frequencies. |
 | [`manuscript_preamble.tex`](./manuscript_preamble.tex) | Configuration / TeX | LaTeX header managing hyperlinks, line wrapping, and table float layouts. |
-| [`bibliography.bib`](./bibliography.bib) | Reference / BibTeX | Comprehensive bibliography of cited clinical trials, CPIC/DPWG guidelines, and PGx reviews. |
-| [`_quarto.yml`](./_quarto.yml) | Project Config | Quarto workspace and rendering configuration. |
-| [`_extensions/`](./_extensions/) | Template Dependencies | Bundled Elsevier Quarto journal extension (`quarto-journals/elsevier`) for offline reproducibility. |
-| [`.github/workflows/build-manuscript.yml`](./.github/workflows/build-manuscript.yml) | CI/CD Pipeline | Automated GitHub Actions workflow compiling the PDF and archiving build artifacts. |
-| [`pgx-antidepressant-response_article.Rproj`](./pgx-antidepressant-response_article.Rproj) | Workspace Config | RStudio project descriptor for integrated GUI editing. |
-| [`renv.lock`](./renv.lock) & [`renv/`](./renv/) | Package Environment | Reproducible R package management state. |
+| [`bibliography.bib`](./bibliography.bib) | Reference / BibTeX | Bibliography of cited clinical trials, CPIC/DPWG guidelines, and PGx reviews. |
+| [`_quarto.yml`](./_quarto.yml) | Project Config | Quarto workspace descriptor. |
+| [`pgx-antidepressant-response_article.Rproj`](./pgx-antidepressant-response_article.Rproj) | Workspace Config | RStudio project descriptor. |
 
 ---
 
 ## How to Build the Manuscript Locally
 
-The Quarto manuscript is completely self-contained. The Elsevier journal format files are pre-bundled in the repository under `_extensions/`, eliminating external network dependencies during rendering.
+The Quarto manuscript is completely self-contained. The Elsevier journal format files are pre-bundled in the repository under `_extensions/`.
 
 ### Prerequisites
 
-You only need:
 1. **Quarto CLI (version 1.3 or later):** [quarto.org/docs/get-started](https://quarto.org/docs/get-started/)
 2. **TinyTeX or standard LaTeX distribution:**
    ```bash
    quarto install tinytex
    ```
 
-### Command-Line Compilation (Recommended)
+### Command-Line Compilation
 
 From the project root directory, run:
 
@@ -99,37 +92,11 @@ From the project root directory, run:
 quarto render pgx-antidepressant-response_article.qmd
 ```
 
-Quarto automatically compiles the LaTeX source via LuaLaTeX, incorporates all BibTeX citations, attaches figures, and generates `pgx-antidepressant-response_article.pdf`.
-
-### RStudio Desktop GUI Workflow
+### RStudio GUI Workflow
 
 1. Double-click [`pgx-antidepressant-response_article.Rproj`](./pgx-antidepressant-response_article.Rproj) to open the project in RStudio.
 2. In the Files tab, open [`pgx-antidepressant-response_article.qmd`](./pgx-antidepressant-response_article.qmd).
 3. Click the **Render** button in the editor toolbar (or press `Ctrl+Shift+K` on Windows/Linux, `Cmd+Shift+K` on macOS).
-4. The generated PDF opens immediately in the preview pane.
-
----
-
-## Continuous Integration & Linux Dependency Architecture
-
-This repository includes an automated CI/CD pipeline ([`.github/workflows/build-manuscript.yml`](./.github/workflows/build-manuscript.yml)) that runs on every commit and pull request.
-
-### Bundled Linux System Dependencies
-
-Scientific LaTeX and Quarto rendering on Ubuntu/Linux requires specific system libraries for font shaping, image rasterization, and document generation. The CI/CD pipeline guarantees zero-failure compilation by bundling:
-
-- **Graphics and Font Rendering Libraries:** `fontconfig`, `libfontconfig1-dev`, `libfreetype6-dev`, `libharfbuzz-dev`, `libfribidi-dev`
-- **Image Compression Libraries:** `libpng-dev`, `libtiff-dev`, `libjpeg-dev`
-- **Network and Parsing Utilities:** `libcurl4-openssl-dev`, `libssl-dev`, `libxml2-dev`
-- **Document Processors:** `ghostscript`, `perl`, `build-essential`
-- **TeX Live Packages:** `elsarticle`, `natbib`, `threeparttable`, `placeins`, `breakurl`, `float`, `array`, `hyperref`, `url`, `amsmath`, `amsfonts`
-
-### Automated Artifact Delivery
-
-Every successful workflow execution generates:
-1. `pgx-antidepressant-response-manuscript`: The compiled manuscript PDF, downloadable from the GitHub Actions run summary.
-2. `assignment-cover-page`: The official coursework cover sheet.
-3. On pushes to `main`, an automated GitHub Release (`latest`) is updated with the production deliverables attached.
 
 ---
 

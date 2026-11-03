@@ -93,26 +93,32 @@ jobs:
           path: assignment_cover-page.pdf
           retention-days: 30
 
+      - name: Update Floating Release Tag
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -f latest
+          git push -f origin latest || true
+
       - name: Publish GitHub Release
         if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
-        continue-on-error: true
         with:
           tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'latest' }}
-          name: ${{ startsWith(github.ref, 'refs/tags/') && format('Release {0}', github.ref_name) || 'Latest Manuscript Publication' }}
+          name: ${{ startsWith(github.ref, 'refs/tags/') && format('Release {0}', github.ref_name) || 'Latest Manuscript Release' }}
           target_commitish: ${{ github.sha }}
-          prerelease: ${{ !startsWith(github.ref, 'refs/tags/') }}
-          make_latest: ${{ startsWith(github.ref, 'refs/tags/') && 'true' || 'legacy' }}
+          draft: false
+          prerelease: false
+          make_latest: true
           body: |
-            ## CYP2D6 and CYP2C19 Pharmacogenomics Review Manuscript
+            ## Psychiatric Pharmacogenomics Review Manuscript
             
             Publication-ready compiled deliverables for *CYP2D6 and CYP2C19 Polymorphisms as Predictors of Antidepressant Response*.
             
             ### Included Deliverables
-            - **`pgx-antidepressant-response_article.pdf`**: The full scientific review paper formatted in the Elsevier 5p layout.
+            - **`pgx-antidepressant-response_article.pdf`**: Full review article formatted in Elsevier 5p layout.
             - **`assignment_cover-page.pdf`**: Coursework cover sheet for BT313IU (Genetics, International University – VNU-HCM).
-            
-            *Compiled automatically via GitHub Actions with Quarto, TinyTeX, and bundled Linux system dependencies.*
           files: |
             pgx-antidepressant-response_article.pdf
             assignment_cover-page.pdf

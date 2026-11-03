@@ -1,0 +1,107 @@
+name: Build and Validate Manuscript
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-manuscript:
+    name: Render Manuscript PDF
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install System & Linux Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            ghostscript \
+            perl \
+            fontconfig \
+            libfontconfig1-dev \
+            libfreetype6-dev \
+            libharfbuzz-dev \
+            libfribidi-dev \
+            libpng-dev \
+            libtiff-dev \
+            libjpeg-dev \
+            libxml2-dev \
+            libcurl4-openssl-dev \
+            libssl-dev
+
+      - name: Set up Quarto and TinyTeX
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          tinytex: true
+
+      - name: Verify and Pre-install TeX Packages
+        run: |
+          tlmgr update --self || true
+          tlmgr install \
+            elsarticle \
+            natbib \
+            threeparttable \
+            placeins \
+            breakurl \
+            float \
+            array \
+            hyperref \
+            url \
+            xcolor \
+            amsmath \
+            amsfonts \
+            tools || true
+
+      - name: Render Quarto Manuscript to PDF
+        run: |
+          quarto render pgx-antidepressant-response_article.qmd
+
+      - name: Verify Output PDF Exists
+        run: |
+          test -s pgx-antidepressant-response_article.pdf || (echo "PDF generation failed!" && exit 1)
+          ls -lh pgx-antidepressant-response_article.pdf
+
+      - name: Upload Manuscript Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pgx-antidepressant-response-manuscript
+          path: pgx-antidepressant-response_article.pdf
+          retention-days: 30
+
+      - name: Upload Coursework Cover Page Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: assignment-cover-page
+          path: assignment_cover-page.pdf
+          retention-days: 30
+
+      - name: Create or Update Latest GitHub Release
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        continue-on-error: true
+        with:
+          tag_name: latest
+          name: "Latest Published Manuscript"
+          body: |
+            Automated publication build of the psychiatric pharmacogenomics review paper.
+            
+            Deliverables:
+            - **Manuscript PDF:** `pgx-antidepressant-response_article.pdf`
+            - **Coursework Cover Page:** `assignment_cover-page.pdf`
+          files: |
+            pgx-antidepressant-response_article.pdf
+            assignment_cover-page.pdf

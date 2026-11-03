@@ -12,7 +12,8 @@ Researchers, clinicians, and reviewers who only wish to read or download the com
 
 - **Full Review Article (PDF):** Open or download [`pgx-antidepressant-response_article.pdf`](./pgx-antidepressant-response_article.pdf) directly from the repository.
 - **Assignment Cover Page (PDF):** Open or download [`assignment_cover-page.pdf`](./assignment_cover-page.pdf).
-- **Automated CI/CD Builds:** Download the latest validated manuscript package from GitHub Actions artifacts or releases without cloning the repository.
+- **Automated Releases (PDF Packages):** Download from [GitHub Releases](https://github.com/ht2905/pgx-antidepressant-response-paper/releases/latest) without cloning the repository.
+- **CI/CD Workflow Artifacts:** View build summaries and download fresh outputs from [GitHub Actions](https://github.com/ht2905/pgx-antidepressant-response-paper/actions/workflows/build-manuscript.yml).
 
 ---
 

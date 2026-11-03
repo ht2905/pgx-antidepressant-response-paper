@@ -1,9 +1,11 @@
-name: Build and Validate Manuscript
+name: Build and Release Manuscript
 
 on:
   push:
     branches:
       - main
+    tags:
+      - 'v*'
     paths-ignore:
       - '**.md'
       - '.gitignore'
@@ -16,13 +18,15 @@ permissions:
   contents: write
 
 jobs:
-  build-manuscript:
-    name: Render Manuscript PDF
+  build-and-release:
+    name: Render Manuscript & Publish Release
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install System & Linux Dependencies
         run: |
@@ -89,19 +93,26 @@ jobs:
           path: assignment_cover-page.pdf
           retention-days: 30
 
-      - name: Create or Update Latest GitHub Release
-        if: github.ref == 'refs/heads/main'
+      - name: Publish GitHub Release
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         continue-on-error: true
         with:
-          tag_name: latest
-          name: "Latest Published Manuscript"
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'latest' }}
+          name: ${{ startsWith(github.ref, 'refs/tags/') && format('Release {0}', github.ref_name) || 'Latest Manuscript Publication' }}
+          target_commitish: ${{ github.sha }}
+          prerelease: ${{ !startsWith(github.ref, 'refs/tags/') }}
+          make_latest: ${{ startsWith(github.ref, 'refs/tags/') && 'true' || 'legacy' }}
           body: |
-            Automated publication build of the psychiatric pharmacogenomics review paper.
+            ## CYP2D6 and CYP2C19 Pharmacogenomics Review Manuscript
             
-            Deliverables:
-            - **Manuscript PDF:** `pgx-antidepressant-response_article.pdf`
-            - **Coursework Cover Page:** `assignment_cover-page.pdf`
+            Publication-ready compiled deliverables for *CYP2D6 and CYP2C19 Polymorphisms as Predictors of Antidepressant Response*.
+            
+            ### Included Deliverables
+            - **`pgx-antidepressant-response_article.pdf`**: The full scientific review paper formatted in the Elsevier 5p layout.
+            - **`assignment_cover-page.pdf`**: Coursework cover sheet for BT313IU (Genetics, International University – VNU-HCM).
+            
+            *Compiled automatically via GitHub Actions with Quarto, TinyTeX, and bundled Linux system dependencies.*
           files: |
             pgx-antidepressant-response_article.pdf
             assignment_cover-page.pdf

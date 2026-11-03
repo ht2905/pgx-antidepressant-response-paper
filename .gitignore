@@ -2,93 +2,85 @@
 # RStudio & R Environment
 # ----------------------------------------------------------------------------
 
-# RStudio Project and Session Files
-.Rproj.user/ # User-specific data and temporary files
-.RData # R image file
-.RDataTmp # Temporary R image file
-.Ruserdata # R user data
-# .Rproj # RStudio project file
-
-# R console/history files (Consolen-/Verlaufsdateien)
+# User-specific data and temporary files
+.Rproj.user/
+.RData
+.RDataTmp
+.Ruserdata
 .Rhistory
-# .Rprofile # User profile/startup file (often tracked, so commented/disabled in this case)
-/renv/ # Ignore the renv folder itself, but include exceptions below
 
-# renv exceptions: keep these tracked for environment reproducibility
+# Python Virtual Environments & Temp Dirs (Hygiene rule)
+.venv/
+venv/
+temp/
+logs/
+artifacts/
+
+# renv: ignore cache/library, track activation and lockfile
+/renv/
 !/renv/activate.R
 !/renv/settings.json
 !renv.lock
-# You should also keep the renv/.gitignore file unless you delete renv/
 
 # ----------------------------------------------------------------------------
-# Quarto / Knitr Build Artifacts & Outputs
+# Quarto & Knitr Build Artifacts & Intermediates
 # ----------------------------------------------------------------------------
 
-# Quarto and Knitr intermediate and cache files (Zwischen- und Cache-Dateien)
-.quarto/ # Quarto cache folder
-*_files/ # Knitr/R Markdown file dependencies (e.g., figure folders)
-*_cache/ # Knitr cache folder
-cache/ # General cache folder (if you use this naming)
-_freeze # Build artifact, mainly used in incremental rendering
+.quarto/
+*_files/
+*_cache/
+cache/
+_freeze/
+**/*.quarto_ipynb
 
-# Quarto extensions
-_extensions/
-
-# Intermediate Quarto/R Markdown files
+# Intermediate Markdown
 *.utf8.md
 *.knit.md
 
-# LaTeX/PDF compilation temporary files
-*.fff** # **Temporary LaTeX figure/float file (the one you asked about)**
-*.aux** # LaTeX auxiliary file
-*.bbl** # BibTeX generated bibliography file
-*.blg** # BibTeX log file
-*.log** # LaTeX log file
-*.nav** # LaTeX navigation file
-*.out** # LaTeX output file
-*.snm** # LaTeX file for Beamer (presentations)
-*.toc** # LaTeX table of contents file
-*.synctex.gz** # SyncTeX file for editor synchronization
-*.spl # Spell-check file
+# LaTeX compilation intermediates
+*.aux
+*.bbl
+*.blg
+*.fff
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.synctex.gz
+*.spl
+
+# Intermediate LaTeX files (whitelisting preamble)
+*.tex
+!manuscript_preamble.tex
 
 # Package build and testing artifacts
-*.tar.gz # R package tarball
-*.Rcheck/ # R package check directory
+*.tar.gz
+*.Rcheck/
+
+# Standalone root copies of extension files (tracked under _extensions/)
+/elsarticle.cls
+/elsarticle-harv.bst
+/elsarticle-num.bst
+/elsevier-vancouver.csl
 
 # ----------------------------------------------------------------------------
-# Common System Files & Project-Specific Exclusions
+# OS & System Files
 # ----------------------------------------------------------------------------
 
-# Windows/macOS/Linux system files (Systemdateien)
-Thumbs.db # Windows thumbnail cache
-.DS_Store # macOS directory service file
-*.log # General log files (already included some specific ones above, but this is a general catch-all)
-
-# Data and credentials (Uncomment if needed)
-# data/
-# .env
-# *.secrets
-# *.key
-
-# Rendered documents
-# *.html
-# *.pdf
-# *.docx
-# *.tex
+Thumbs.db
+.DS_Store
 
 # ----------------------------------------------------------------------------
-# Project-specific
+# Tracked publication deliverables & extensions
 # ----------------------------------------------------------------------------
 
-# Elsevier Template/Extension Files (These can be installed via Quarto CLI)
-elsarticle.cls
-elsarticle-harv.bst
-elsarticle-num.bst
-elsevier-vancouver.csl
+# Keep rendered publication manuscript tracked
+!pgx-antidepressant-response_article.pdf
+!assignment_cover-page.pdf
 
-# Preamble File
-!preamble.tex
+# Track Elsevier template extension for reproducible offline / CI rendering
+!_extensions/
+!_extensions/**
+
 /.quarto/
-.Rproj.user
-
-!pgx_antidepressant_response_article.pdf

@@ -66,7 +66,7 @@ format:
   elsevier-pdf:
     # tables: float
     includes:
-      in_header: preamble.tex
+      in_header: manuscript_preamble.tex
     keep-tex: true
     # cite-method: citeproc # Default is `natbib`
     journal:
@@ -82,22 +82,6 @@ crossref:
   fig-title: "Fig." # Controls the prefix used in the caption (“Fig. 1. Caption…”)
   fig-prefix: "Fig." # Controls the prefix used by cross-references (“see Fig. 1”)
 ---
-
-```{=html}
-<!--
-comment template, so I don't forget how to do it lol
--->
-```
-
-```{r renv-dependencies, include=FALSE}
-# This chunk makes the core R rendering packages visible to renv::snapshot()
-# The 'knitr' and 'rmarkdown' packages pull in most of the other dependencies.
-library(knitr)
-library(rmarkdown)
-library(tinytex) 
-library(yaml)
-library(ragg)
-```
 
 \begin{center}
 \textbf{Submission Note:} Paper prepared for the Genetics (BT313IU) course, International University - VNU-HCM, under the instruction of MSc. Hang T. Tong.
@@ -267,7 +251,7 @@ Population-level differences in *CYP2D6* and *CYP2C19* allele frequencies furthe
 
 \begin{figure*}[!htb]
     \centering
-    \includegraphics[width=\textwidth]{photos/cyp2d6_duplication_distribution.png}
+    \includegraphics[width=\textwidth]{figures/cyp2d6_duplication-distribution.png}
     \caption{Interethnic distribution of alleles containing duplicated active \textit{CYP2D6} genes. Reproduced from Ingelman-Sundberg M \cite{ingelman-sundbergPharmacogeneticsOpportunitySafer2001}.}
     \label{fig:cyp2d6-distribution}
 \end{figure*}
